@@ -26,7 +26,7 @@ namespace WebUI.Controllers
             {
                 return NotFound();
             }
-            if(result?.Status == (int)ImageStatus.COMPLETED)
+            if(result.Status == (int)ImageStatus.COMPLETED)
             {
                 return File(result.TumbnailImage, "image/jpeg");
             }

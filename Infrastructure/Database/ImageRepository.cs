@@ -12,16 +12,20 @@ namespace Infrastructure.Database
     public class ImageRepository : IImageRepository
     {
         private readonly ImageContext _dbContext;
+        private readonly IImageDownloadService _imageDownloadService;
 
-        public ImageRepository(ImageContext dbContext)
+        public ImageRepository(ImageContext dbContext, IImageDownloadService imageDownloadService)
         {
             _dbContext = dbContext;
+            _imageDownloadService = imageDownloadService;
         }
         public async Task<Guid> AddImage(Image image)
         {
             var guid = Guid.NewGuid();
+            var imageContent = await _imageDownloadService.Download(image.Url);
             image.ImageUid = guid;
             image.Status = (int)ImageStatus.IN_QUEUE;
+            image.TumbnailImage = imageContent;
             _dbContext.Image.Add(image);
             await _dbContext.SaveChangesAsync();
             return guid;
