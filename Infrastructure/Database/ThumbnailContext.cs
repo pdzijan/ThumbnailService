@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Database
 {
-    public class ImageContext : DbContext
+    public class ThumbnailContext : DbContext
     {
-        public ImageContext(DbContextOptions<ImageContext> options) : base(options)
+        public ThumbnailContext(DbContextOptions<ThumbnailContext> options) : base(options)
         {
 
         }
 
-        public virtual DbSet<Image> Image { get; set; }
+        public virtual DbSet<Thumbnail> Thumbnail { get; set; }
     }
 }

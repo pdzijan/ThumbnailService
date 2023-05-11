@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public partial class Image
+    public class Thumbnail
     {
         [Key]
-        public Guid ImageUid { get; set; }
+        public Guid ThumbnailUid { get; set; }
+        public byte[]? Content { get; set; }
         public string? Url { get; set; }
-        public int Status { get; set; }
-        public string? ErrorMessage { get; set; }
-        public byte[]? TumbnailImage { get; set; }
         public int SizeX { get; set; }
         public int SizeY { get; set; }
+        public DateTime InsertDate { get; set; }
+        public int Status { get; set; }
+        public string? ErrorMessage { get; set; }
     }
 }

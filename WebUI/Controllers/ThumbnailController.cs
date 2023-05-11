@@ -1,6 +1,8 @@
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Requests;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -10,33 +12,33 @@ namespace WebUI.Controllers
     public class ThumbnailController : ControllerBase
     {
         private readonly ILogger<ThumbnailController> _logger;
-        private readonly IImageService _imageService;
+        private readonly IThumbnailService _thumbnailService;
 
-        public ThumbnailController(ILogger<ThumbnailController> logger, IImageService imageService)
+        public ThumbnailController(ILogger<ThumbnailController> logger, IThumbnailService thumbnailService)
         {
             _logger = logger;
-            _imageService = imageService;
+            _thumbnailService = thumbnailService;
         }
 
         [HttpGet]
         public async Task<ActionResult> Get(Guid id)
         {
-            var result = await _imageService.GetImage(id);
+            var result = await _thumbnailService.GetThumbnail(id);
             if(result is null)
             {
                 return NotFound();
             }
-            if(result.Status == (int)ImageStatus.COMPLETED)
+            if(result.Status == (int)ThumbnailStatus.COMPLETED)
             {
-                return File(result.TumbnailImage, "image/jpeg");
+                return File(result.Content, "image/jpeg");
             }
-            return Ok(string.Format("Status: " + (ImageStatus)result.Status));
+            return Ok(string.Format("Status: " + (ThumbnailStatus)result.Status));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> Post(Image image)
+        public async Task<ActionResult<Guid>> Post(ThumbnailRequest thumbnail)
         {
-            var result = await _imageService.AddImage(image);
+            var result = await _thumbnailService.AddThumbnail(thumbnail);
             return Ok(result);
         }
     }

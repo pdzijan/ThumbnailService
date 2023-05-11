@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums
 {
-    public enum ImageStatus
+    public enum ThumbnailStatus
     {
             IN_QUEUE = 0,
             IN_PROGRESS = 1,

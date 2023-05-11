@@ -1,14 +1,23 @@
-using Application;
-using Infrastructure;
 using Infrastructure.Database;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using WebApi.BackgroundWorker;
+using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddControllers();
+builder.Services.AddHostedService<BackgroundWorker>();
 // Add services to the container.
 builder.Services
-    .AddApplication()
-    .AddInfrastructure();
-builder.Services.AddControllers();
+    .AddServices();
+
+// Add DbContext
+builder.Services.AddDbContext<ThumbnailContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
