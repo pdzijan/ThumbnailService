@@ -13,6 +13,7 @@ namespace Infrastructure.Services
                     using var image = Image.Load(stream);
                     image.Mutate(x => x.Resize(sizeX, sizeY));
                     await image.SaveAsJpegAsync(memoryStream);
+
                     return memoryStream.ToArray();
                 }
             }

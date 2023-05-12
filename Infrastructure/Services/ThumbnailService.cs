@@ -17,6 +17,7 @@ namespace Infrastructure.Services
             _imageDownloadService = imageDownloadService;
             _imageResizeService = imageResizeService;
         }
+
         public async Task<Guid> AddThumbnail(ThumbnailRequest thumbnailRequest)
         {
             Thumbnail thumbnail = new();
@@ -34,6 +35,7 @@ namespace Infrastructure.Services
         public async Task<ThumbnailResponse> GetThumbnail(Guid id)
         {
             var thumbnail = await _thumbnailRepository.GetThumbnail(id);
+
             return new ThumbnailResponse()
             {
                 ThumbnailUid = thumbnail.ThumbnailUid,
@@ -50,7 +52,6 @@ namespace Infrastructure.Services
 
         public async Task ProcessThumbnail()
         {
-
             var thumbnailToProcess = await _thumbnailRepository.GetThumbnailForProcess();
             if (thumbnailToProcess != null && thumbnailToProcess.ThumbnailUid != Guid.Empty)
             {
@@ -60,12 +61,14 @@ namespace Infrastructure.Services
                     var resizedImage = await _imageResizeService.Resize(imageContent, thumbnailToProcess.SizeX, thumbnailToProcess.SizeY);
                     thumbnailToProcess.Content = resizedImage;
                     thumbnailToProcess.Status = (int)ThumbnailStatus.COMPLETED;
+
                     await Updatehumbnail(thumbnailToProcess);
                 }
                 catch (Exception ex)
                 {
                     thumbnailToProcess.Status = (int)ThumbnailStatus.IN_ERROR;
                     thumbnailToProcess.ErrorMessage = ex.Message;
+
                     await Updatehumbnail(thumbnailToProcess);
                 }
             }

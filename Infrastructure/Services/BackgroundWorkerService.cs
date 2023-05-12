@@ -10,10 +10,10 @@ namespace Infrastructure.Services
         {
             _thumbnailService = thumbnailService;
         }
+
         public async Task ExecuteAsync()
         {
             await _thumbnailService.ProcessThumbnail();
-            await Task.Delay(10000);
         }
     }
 }

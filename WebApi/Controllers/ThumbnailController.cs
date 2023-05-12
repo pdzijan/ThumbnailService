@@ -4,19 +4,17 @@ using Domain.Requests;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Controllers
+namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class ThumbnailController : ControllerBase
     {
-        private readonly ILogger<ThumbnailController> _logger;
         private readonly IThumbnailService _thumbnailService;
         private readonly IValidator<ThumbnailRequest> _validator;
 
-        public ThumbnailController(ILogger<ThumbnailController> logger, IThumbnailService thumbnailService, IValidator<ThumbnailRequest> validator)
+        public ThumbnailController(IThumbnailService thumbnailService, IValidator<ThumbnailRequest> validator)
         {
-            _logger = logger;
             _thumbnailService = thumbnailService;
             _validator = validator;
         }

@@ -13,10 +13,12 @@ namespace Infrastructure.Database
         {
             _dbContext = dbContext;
         }
+
         public async Task<Guid> AddThumbnail(Thumbnail thumbnail)
         {
             _dbContext.Thumbnail.Add(thumbnail);
             await _dbContext.SaveChangesAsync();
+
             return thumbnail.ThumbnailUid;
         }
 
