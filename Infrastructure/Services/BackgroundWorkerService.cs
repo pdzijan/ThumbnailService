@@ -1,19 +1,34 @@
 ﻿using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Infrastructure.Services
 {
-    public class BackgroundWorkerService : IBackgroundWorkerService
+    public class BackgroundWorkerService : BackgroundService
     {
-        private readonly IThumbnailService _thumbnailService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IConfiguration _configuration;
 
-        public BackgroundWorkerService(IThumbnailService thumbnailService)
+        public BackgroundWorkerService(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            _thumbnailService = thumbnailService;
+            _configuration = configuration;
+            _serviceProvider = serviceProvider;
         }
 
-        public async Task ExecuteAsync()
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await _thumbnailService.ProcessThumbnail();
+            var backgroundServiceDelay = _configuration.GetSection("BackgroundService").GetValue<int>("BackgroundServiceDelay");
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                using (IServiceScope scope = _serviceProvider.CreateScope())
+                {
+                    IThumbnailService scopedProcessingService =
+                        scope.ServiceProvider.GetRequiredService<IThumbnailService>();
+                    await scopedProcessingService.ProcessThumbnail();
+                    await Task.Delay(backgroundServiceDelay);
+                }
+            }
         }
     }
 }

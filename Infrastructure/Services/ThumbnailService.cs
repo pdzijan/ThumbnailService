@@ -45,7 +45,7 @@ namespace Infrastructure.Services
             };
         }
 
-        public async Task Updatehumbnail(Thumbnail image)
+        public async Task UpdateThumbnail(Thumbnail image)
         {
             await _thumbnailRepository.UpdateThumbnail(image);
         }
@@ -62,14 +62,14 @@ namespace Infrastructure.Services
                     thumbnailToProcess.Content = resizedImage;
                     thumbnailToProcess.Status = (int)ThumbnailStatus.COMPLETED;
 
-                    await Updatehumbnail(thumbnailToProcess);
+                    await UpdateThumbnail(thumbnailToProcess);
                 }
                 catch (Exception ex)
                 {
                     thumbnailToProcess.Status = (int)ThumbnailStatus.IN_ERROR;
                     thumbnailToProcess.ErrorMessage = ex.Message;
 
-                    await Updatehumbnail(thumbnailToProcess);
+                    await UpdateThumbnail(thumbnailToProcess);
                 }
             }
         }

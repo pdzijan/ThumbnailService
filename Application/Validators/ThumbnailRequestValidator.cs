@@ -14,8 +14,7 @@ namespace Application.Validators
 
         public bool IsValidUrl(string url)
         {
-            Uri validatedUrl;
-            return Uri.TryCreate(url, UriKind.Absolute, out validatedUrl);
+            return Uri.TryCreate(url, UriKind.Absolute, out _);
         }
     }
 }

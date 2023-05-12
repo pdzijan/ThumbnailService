@@ -1,13 +1,13 @@
 using Infrastructure.Database;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using WebApi.BackgroundWorker;
-using WebApi.Extensions;
+using WebApi.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
-builder.Services.AddHostedService<BackgroundWorker>();
+builder.Services.AddHostedService<BackgroundWorkerService>();
 // Add services to the container.
 builder.Services
     .RegisterServices();

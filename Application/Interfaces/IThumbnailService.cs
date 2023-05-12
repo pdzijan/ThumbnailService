@@ -6,7 +6,7 @@ namespace Application.Interfaces
     public interface IThumbnailService
     {
         Task<Guid> AddThumbnail(ThumbnailRequest image);
-        Task Updatehumbnail(Thumbnail image);
+        Task UpdateThumbnail(Thumbnail image);
         Task<ThumbnailResponse> GetThumbnail(Guid id);
         Task ProcessThumbnail();
     }
