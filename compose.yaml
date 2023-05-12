@@ -1,6 +1,6 @@
 services:
   web:
-    image: pdzijan/thumbnailservice:latest
+    image: pdzijan/thumbnailapi:latest
     container_name: webapi
     ports:
       - 80:80
