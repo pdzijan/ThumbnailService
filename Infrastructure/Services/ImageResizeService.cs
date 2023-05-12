@@ -6,12 +6,19 @@ namespace Infrastructure.Services
     {
         public async Task<byte[]> Resize(byte[] stream, int sizeX, int sizeY)
         {
-            using (var memoryStream = new MemoryStream())
+            try
             {
-                using var image = Image.Load(stream);
-                image.Mutate(x => x.Resize(sizeX, sizeY));
-                await image.SaveAsJpegAsync(memoryStream);
-                return memoryStream.ToArray();
+                using (var memoryStream = new MemoryStream())
+                {
+                    using var image = Image.Load(stream);
+                    image.Mutate(x => x.Resize(sizeX, sizeY));
+                    await image.SaveAsJpegAsync(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
+            catch 
+            {
+                throw new Exception("ERROR_RESIZING_IMAGE");
             }
         }
     }

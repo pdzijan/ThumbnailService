@@ -1,5 +1,4 @@
 using Infrastructure.Database;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using WebApi.BackgroundWorker;
 using WebApi.Extensions;
@@ -11,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddHostedService<BackgroundWorker>();
 // Add services to the container.
 builder.Services
-    .AddServices();
+    .RegisterServices();
 
 // Add DbContext
 builder.Services.AddDbContext<ThumbnailContext>(options =>

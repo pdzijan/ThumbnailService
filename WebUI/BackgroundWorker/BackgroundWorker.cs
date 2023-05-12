@@ -13,7 +13,6 @@ namespace WebApi.BackgroundWorker
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-
                 using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
                     IBackgroundWorkerService scopedProcessingService =

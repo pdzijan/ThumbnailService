@@ -1,9 +1,4 @@
 ﻿using Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -18,7 +13,14 @@ namespace Infrastructure.Services
 
         public async Task<byte[]> Download(string url)
         {
-           return await _client.GetByteArrayAsync(url);
+            try
+            {
+                return await _client.GetByteArrayAsync(url);
+            }
+            catch 
+            {
+                throw new Exception("ERROR_DOWNLOADING_IMAGE");
+            }
         }
     }
 }
