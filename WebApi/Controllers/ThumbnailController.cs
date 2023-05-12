@@ -22,6 +22,11 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult> Get(Guid id)
         {
+            bool isValid = Guid.TryParse(id.ToString(), out _) || id != Guid.Empty;
+            if(!isValid)
+            {
+                return BadRequest();
+            }
             var result = await _thumbnailService.GetThumbnail(id);
             if (result is null)
             {

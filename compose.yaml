@@ -1,0 +1,14 @@
+services:
+  web:
+    image: pdzijan/thumbnailservice:latest
+    container_name: webapi
+    ports:
+      - 80:80
+  db:
+    image: "pdzijan/thumbnaildatabase:latest"
+    container_name: sqlserver
+    ports:
+      - 1433:1433 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Password123
