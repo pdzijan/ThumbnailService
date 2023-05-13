@@ -4,6 +4,12 @@ services:
     container_name: webapi
     ports:
       - 80:80
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 60s
   db:
     image: "pdzijan/thumbnaildatabase:latest"
     container_name: sqlserver
